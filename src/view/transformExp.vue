@@ -2,17 +2,20 @@
 
   <div class="dashboard">
     <div class="flex-container column">
-      <div class="item one" data-order="1" @click="clickChart('1')" style="transform: translate(-22.4%,-33.5%) scale(0.33)">
+      <div class="item " data-order="1" @click="clickChart('1')" style="transform: translate(-22.4%,-37.5%) scale(0.25)">
         <img src="../assets/img/testImg1.png">
       </div>
-      <div class="item two" data-order="2" @click="clickChart('2')" style="transform: translate(-22.4%,0.5%) scale(0.33)">
-        <img src="../assets/img/testImg1.png">
+      <div class="item " data-order="2" @click="clickChart('2')" style="transform: translate(-22.4%,-11.5%) scale(0.25)">
+        <img src="../assets/img/testImg2.png">
       </div>
-      <div class="item three" data-order="3" @click="clickChart('3')" style="transform: translate(-22.4%,34.5%) scale(0.33)">
-        <img src="../assets/img/testImg1.png">
+      <div class="item " data-order="3" @click="clickChart('3')" style="transform: translate(-22.4%,14.5%) scale(0.25)">
+        <img src="../assets/img/testImg3.png">
       </div>
-      <div class="item four active" data-order="4" @click="clickChart('4')" style="transform: translate(43.7%, 0) scale(1)">
-        <img src="../assets/img/testImg1.png">
+      <div class="item " data-order="4" @click="clickChart('4')" style="transform: translate(-22.4%,40.5%) scale(0.25)">
+        <img src="../assets/img/testImg3.png">
+      </div>
+      <div class="item active" data-order="5" @click="clickChart('5')" style="transform: translate(43.7%, 0) scale(1)">
+        <img src="../assets/img/testImg4.png">
       </div>
     </div>
   </div>
@@ -68,7 +71,7 @@ export default {
   width: 68%;
   height: 100%;
   position: absolute;
-  transform: scale(0.33);
+  transform: scale(0.25);
   text-align: center;
   transition: all 0.8s;
   background: rgba(32, 32, 35, 0.5);
@@ -93,8 +96,6 @@ img {
   position: relative;
   height: 90%;
   width: 90%;
-  overflow: hidden;
-  margin: 0 auto 100px auto;
   box-sizing: content-box;
 }
 
