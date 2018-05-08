@@ -1,10 +1,10 @@
 <!--  -->
 <template>
   <div class="slDiv">
-    <input v-if="!multiple"  class="btnSelect" @click="toggleOption" v-model="showValue" v-on:input="changeInput(selectedVal)" :placeholder="defaultPlaceholder" v-bind:data-val="selectedVal" readonly @blur="blurInput">
+    <input v-if="!multiple" class="btnSelect" @click="toggleOption" v-model="showValue" v-on:input="changeInput(selectedVal)" :placeholder="defaultPlaceholder" v-bind:data-val="selectedVal" readonly @blur="blurInput">
     <div v-show="isShowOption" class="ulDiv">
       <ul>
-        <li v-for="(item,index) in optionData" :key="index" :class="{'selected': itemSelected(item.val)}" v-bind:data-val="item.val" @click="clickOption(item,$event)">{{item.text}}</li>
+        <li v-for="(item,index) in optionData" :key="index" :class="{'selected': itemSelected(item[dataVal])}" v-bind:data-val="item[dataVal]" @click="clickOption(item,$event)">{{item[dataLable]}}</li>
       </ul>
     </div>
   </div>
@@ -30,7 +30,17 @@ export default {
     },
     optionData: [Object, Array],
     text: String,
-    multiple: Boolean
+    multiple: Boolean,
+    //实际值
+    dataVal: {
+      type: String,
+      default: "val"
+    },
+    //显示值
+    dataLable: {
+      type: String,
+      default: "text"
+    }
   },
   methods: {
     toggleOption: function() {
@@ -43,7 +53,7 @@ export default {
       }, 50);
     },
     clickOption: function(item, event) {
-      this.showValue = item.text;
+      this.showValue = item[this.dataLable];
       let $el = event.target;
       this.changeInput($el.dataset.val);
       this.selectedVal = $el.dataset.val;
