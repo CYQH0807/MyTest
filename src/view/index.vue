@@ -11,9 +11,9 @@
     </el-table>
     {{text}}
     <div class="formSelect">
-      <xSelect :optionData="optionData" v-model="text" ></xSelect>
+      <xSelect :optionData="options" v-bind:dataVal="'value'" :multiple="true" v-bind:dataLable="'label'" v-model="text" v-on:change="handleChange" v-on:remove-tag="handleRemoveTag"></xSelect>
 
-      <el-select v-model="value" placeholder="请选择">
+      <el-select v-model="value" multiple placeholder="请选择">
         <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
@@ -86,7 +86,13 @@ export default {
     //this.$loading.creat({ container: ".hello", mini: true, text: true });
   },
   methods: {
-    watchText: function() {}
+    watchText: function() {},
+    handleChange: function(showValue) {
+      console.log(showValue);
+    },
+    handleRemoveTag: function(item) {
+      console.log(item);
+    }
   },
   components: {
     xSelect
