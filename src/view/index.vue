@@ -1,14 +1,6 @@
 <template>
   <div class="hello">
 
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="日期" width="180">
-      </el-table-column>
-      <el-table-column prop="name" label="姓名" width="180">
-      </el-table-column>
-      <el-table-column prop="address" label="地址">
-      </el-table-column>
-    </el-table>
     {{text}}
     <div class="formSelect">
       <xSelect :optionData="options" v-bind:dataVal="'value'" :multiple="true" v-bind:dataLable="'label'" v-model="text" v-on:change="handleChange" v-on:remove-tag="handleRemoveTag"></xSelect>
@@ -19,6 +11,10 @@
       </el-select>
       {{value}}
     </div>
+
+    <el-progress :percentage="0"></el-progress>
+    <el-progress :percentage="70"></el-progress>
+
   </div>
 </template>
 
