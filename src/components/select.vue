@@ -1,4 +1,3 @@
-<!--  -->
 <template>
   <div class="slDiv" @click="stopPropagation($event)">
     <div v-if="multiple" class="multipleBox" @click="toggleOption">
@@ -84,11 +83,12 @@ export default {
         return this.selectedVal.indexOf(item) != -1;
       }
     },
-    deleteItem: function(item,index,event) {
+    deleteItem: function(item, index, event) {
       if (event) event.stopPropagation();
       this.selectedVal.splice(index, 1);
       this.emitChange(this.selectedVal);
       this.$emit("remove-tag", item);
+      this.inputHeight();
     },
     inputHeight: function() {
       this.$nextTick(() => {
@@ -180,7 +180,7 @@ li {
 }
 .multipleBox {
   position: absolute;
-  width: 90%;
+  width: 95%;
 }
 .multipleBox::after {
   display: block;
