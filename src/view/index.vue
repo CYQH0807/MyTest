@@ -3,39 +3,50 @@
     <div class="progress" v-if="isShowProgress" @click="progressClick($event)">
       <el-progress :percentage="scrollPosition" :show-text="false" class="ttt"></el-progress>
     </div>
-    {{text}}
     <div class="formSelect">
+      {{text}}
       <xSelect :optionData="options" v-bind:dataVal="'value'" :multiple="true" v-bind:dataLable="'label'" v-model="text" v-on:change="handleChange" v-on:remove-tag="handleRemoveTag"></xSelect>
-      <xSelect :optionData="options" v-bind:dataVal="'value'" v-bind:dataLable="'label'" v-model="text" v-on:change="handleChange" v-on:remove-tag="handleRemoveTag"></xSelect>
-
-      <el-select v-model="value" multiple placeholder="请选择">
-        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </el-option>
-      </el-select>
-      {{value}}
+      {{text1}}
+      <xSelect :optionData="options" v-bind:dataVal="'value'" v-bind:dataLable="'label'" v-model="text1" v-on:change="handleChange" v-on:remove-tag="handleRemoveTag"></xSelect>
     </div>
+    <el-row>
+      <el-button @click="selectData">查询</el-button>
+    </el-row>
 
     <div class="movieTable">
-      <el-table :data="movieList" style="width: 100%">
-        <el-table-column prop="id" label="ID" width="100">
-        </el-table-column>
-        <el-table-column label="中文名称" width="180">
-          <template slot-scope="scope">
-            <a :href="scope.row.alt" target="_blank" class="movieTableLink">{{ scope.row.title }}</a>
-          </template>
-        </el-table-column>
-        <el-table-column prop="original_title" label="英文名称">
-        </el-table-column>
-        <el-table-column prop="year" label="年份" width="100">
-        </el-table-column>
-        <el-table-column label="评分">
-          <template slot-scope="scope">
-            <el-rate v-model="scope.row.rating.average" disabled show-score text-color="#ff9900" score-template="{value}">
-            </el-rate>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-scrollbar style="height:100%">
+        <el-table :data="movieList" style="width: 100%">
+          <el-table-column prop="id" label="ID" width="100">
+          </el-table-column>
+          <el-table-column label="中文名称" width="180">
+            <template slot-scope="scope">
+              <a :href="scope.row.alt" target="_blank" class="movieTableLink">{{ scope.row.title }}</a>
+            </template>
+          </el-table-column>
+          <el-table-column class="cursorPointer" label="英文名称">
+            <template slot-scope="scope">
+              <span class="cursorPointer" @click="clickOriginal(scope.row.original_title)"> {{ scope.row.original_title }} </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="year" label="年份" width="100">
+          </el-table-column>
+          <el-table-column label="评分" width="200">
+            <template slot-scope="scope">
+              <el-rate v-model="scope.row.rating.average" disabled show-score text-color="#ff9900" score-template="{value}">
+              </el-rate>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="分类">
+            <template slot-scope="scope">
+              <el-tag type="success" class="marginRight7" v-for="(item,index) in scope.row.genres" :key="index">{{item}}</el-tag>
+            </template>
+          </el-table-column>
+
+        </el-table>
+      </el-scrollbar>
     </div>
+
     <div class="block">
       <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
@@ -51,6 +62,7 @@ export default {
   data() {
     return {
       text: "",
+      text1: "",
       pageSize: 10, //每页显示多少条
       total: 0, //总条数
       currentPage: 1, //当前第几页
@@ -99,10 +111,8 @@ export default {
       this.loadData();
     },
     handleSizeChange: function(val) {
-      this.pageSize = val;
-      this.startPage = 0;
       this.currentPage = 1;
-      this.loadData();
+      this.loadData(val, 0);
     },
     handleScroll() {
       let scrollTop =
@@ -113,7 +123,10 @@ export default {
         document.querySelector(".hello").clientHeight -
         document.body.clientHeight;
       this.isShowProgress = allHeight > 0;
-      this.scrollPosition = Math.round(scrollTop / allHeight * 100);
+      //progress进度条插件 有个小BUG 如果进度大于100% 就会有个报错 这里判断了大于100时 给进度条赋值100
+      this.scrollPosition = Math.round(
+        scrollTop / allHeight * 100 > 100 ? 100 : scrollTop / allHeight * 100
+      );
     },
     progressClick: function(event) {
       let position = event.clientX / document.body.clientWidth;
@@ -122,11 +135,36 @@ export default {
         document.body.clientHeight;
       window.scrollTo(0, scrollTop * position);
     },
-    loadData: function() {
+    selectData: function() {
+      this.$confirm("是否重新查询?", "提示", {
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        type: "warning"
+      })
+        .then(() => {
+          this.currentPage = 1;
+          this.loadData(10, 0);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作"
+          });
+        });
+    },
+    clickOriginal: function(title) {
+      this.$message({
+        message: title,
+        center: true
+      });
+    },
+    loadData: function(pageSize = this.pageSize, startPage = this.startPage) {
+      this.pageSize = pageSize;
+      this.startPage = startPage;
       let that = this;
       resource
         .JsonpTest(
-          { count: that.pageSize, start: that.startPage },
+          { count: pageSize, start: startPage },
           { container: ".movieTable" }
         )
         .then(data => {
@@ -148,12 +186,21 @@ export default {
   margin-top: 6px;
 }
 .formSelect {
-  width: 300px;
+  width: 600px;
   margin-left: 20px;
+}
+.formSelect::after {
+  content: " ";
+  display: table;
+  clear: both;
 }
 .hello,
 .movieTable {
   position: relative;
+}
+.movieTable {
+  height: 500px;
+  overflow: hidden;
 }
 .movieTableLink {
   text-decoration: none;
