@@ -15,21 +15,36 @@
  * min 最小长度
  * max 最大长度
  * type 数据类型 -- 是否严格校验?
+ *  --- type 数据类型 半严格校验 
+ *              eg : type=> string ,文本框类型 无  输入123 校验通过
+ *                   type=> string ,文本框类型 number   输入123 校验通过
+ *                   type=> number ,文本框类型 无   输入123 校验不通过 即 输入的123 为字符串
+ *                   type=> number ,文本框类型 number   输入123 校验不通过 必须要使用transform 函数 将value转换成number才能通过 有点特殊
+ *      注1: 这里有个default的问题 如果type不写 会被默认为string 
+ *      注2: type 的string与number 都有min 和 max 属性 但是含义不同 
+ *            string的min与max 含义是字符串长度在min与max之间 
+ *            number的min与max 含义是数字的值在min与max之间 
+ *            
  * validator 校验规则 该规则是个方法 方法内使用callback(new Error('错误信息')); 这个回调来向页面上输出错误信息
  * 自定义校验规则 与属性规则一样 都会按照顺序进行校验
  * 
+ * @version 1.0 表单验证第一版 第二版将会尝试解决该文件的重复引用
  */
-
 export default {
   name: [{
+      type: "number",
       required: true,
       message: "请输入活动名称",
-      trigger: "blur"
+      trigger: "blur",
+      transform(value) {
+        return Number(value);
+      },
     },
     {
+      type: "number",
       min: 3,
       max: 5,
-      message: "长度在 4 到 5 个字符",
+      message: "数值范围在 3 到 5 之间",
       trigger: "blur"
     }
   ],
@@ -61,30 +76,23 @@ export default {
     message: "请选择活动资源",
     trigger: "change"
   }],
-  desc: [{
+  mail: [{
     required: true,
-    message: "请填写活动形式",
+    message: "请填写邮箱",
+    trigger: "blur"
+  }, {
+    type: "email",
+    message: "请填写正确的邮箱",
     trigger: "blur"
   }],
-  mail: [{
-      required: true,
-      message: "请填写邮箱",
-      trigger: "blur"
-    },
-    {
-      validator: (rule, value, callback) => {
-        !/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(value) && callback(new Error('请输入正确的邮箱地址'))
-      },
-      trigger: 'blur'
-    }
-  ],
   phone: [{
     required: true,
     message: "请填写手机号码",
     trigger: "blur"
   }, {
+    type: "regexp",
     validator: (rule, value, callback) => {
-      !/^1[345789]\d{9}$/.test(value) && callback(new Error('请输入正确的手机号码'))
+      !/^1[345789]\d{9}$/.test(value) ? callback(new Error('请输入正确的手机号码')) : callback();
     },
     trigger: 'blur'
   }],
@@ -96,6 +104,19 @@ export default {
     validator: (rule, value, callback) => {
       !/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X|x)$/.test(value) &&
         callback(new Error('请输入正确的身份证号码'))
+    },
+    trigger: 'blur'
+  }],
+  floatNumber: [{
+    required: true,
+    message: "请填写${占位符}",
+    trigger: "blur"
+  }, {
+    validator: (rule, value, callback) => {
+      !/^[0-9]+(.[0-9]{1,2})?$/.test(value) ? callback(new Error('请输入正确的两位以内小数')) : callback();
+    },
+    transform(value) {
+      return value.trim();
     },
     trigger: 'blur'
 

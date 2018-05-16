@@ -10,7 +10,7 @@
             <el-main class="main">
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                     <el-form-item label="活动名称" prop="name">
-                        <el-input v-model="ruleForm.name"></el-input>
+                        <el-input type="number" v-model="ruleForm.name"></el-input>
                     </el-form-item>
                     <el-form-item label="活动区域" prop="region">
                         <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
@@ -48,8 +48,8 @@
                             <el-radio label="线下场地免费"></el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="活动形式" prop="desc">
-                        <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                    <el-form-item label="金额" prop="floatNumber">
+                        <el-input placeholder="请输入两位以内的小数" v-model="ruleForm.floatNumber"></el-input>
                     </el-form-item>
                     <el-form-item label="邮箱" prop="mail">
                         <el-input v-model="ruleForm.mail"></el-input>
@@ -84,7 +84,7 @@ export default {
         delivery: false,
         type: [],
         resource: "",
-        desc: "",
+        floatNumber: "",
         mail: "",
         phone: "",
         idCord: ""
