@@ -1,7 +1,7 @@
 /**
  * @author 池樱千幻
  * 表单校验
- * 该表单校验依赖于elementUi 的async-validator插件与form插件
+ * 该表单校验依赖于elementUi 的async-validator插件与form插件 
  * 错误信息显示位置的自定义 还未找到 目前只能放在下面或同一行
  * 将所有校验写在一个文件中 只调用这一个文件即可 
  * 该写法可能会导致属性的重复引用
