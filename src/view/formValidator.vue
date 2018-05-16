@@ -54,6 +54,12 @@
                     <el-form-item label="邮箱" prop="mail">
                         <el-input v-model="ruleForm.mail"></el-input>
                     </el-form-item>
+                    <el-form-item label="手机号码" prop="phone">
+                        <el-input v-model="ruleForm.phone"></el-input>
+                    </el-form-item>
+                    <el-form-item label="身份证号码" prop="idCord">
+                        <el-input v-model="ruleForm.idCord"></el-input>
+                    </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -79,7 +85,9 @@ export default {
         type: [],
         resource: "",
         desc: "",
-        mail: ""
+        mail: "",
+        phone: "",
+        idCord: ""
       },
       rules: rules
     };

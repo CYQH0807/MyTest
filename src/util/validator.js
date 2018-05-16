@@ -20,7 +20,6 @@
  * 
  */
 
-
 export default {
   name: [{
       required: true,
@@ -74,10 +73,31 @@ export default {
     },
     {
       validator: (rule, value, callback) => {
-        const regExp = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
-        !regExp.test(value) && callback(new Error('请输入正确的邮箱地址'))
+        !/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(value) && callback(new Error('请输入正确的邮箱地址'))
       },
       trigger: 'blur'
     }
-  ]
+  ],
+  phone: [{
+    required: true,
+    message: "请填写手机号码",
+    trigger: "blur"
+  }, {
+    validator: (rule, value, callback) => {
+      !/^1[345789]\d{9}$/.test(value) && callback(new Error('请输入正确的手机号码'))
+    },
+    trigger: 'blur'
+  }],
+  idCord: [{
+    required: true,
+    message: "请填写身份证号码",
+    trigger: "blur"
+  }, {
+    validator: (rule, value, callback) => {
+      !/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X|x)$/.test(value) &&
+        callback(new Error('请输入正确的身份证号码'))
+    },
+    trigger: 'blur'
+
+  }]
 }
