@@ -65,6 +65,15 @@
                         <el-button @click="resetForm('ruleForm')">重置</el-button>
                     </el-form-item>
                 </el-form>
+
+                <el-form :model="ruleForm1" :rules="rulesXp" ref="ruleForm1" label-width="100px" class="demo-ruleForm">
+                    <el-form-item label="密码" prop="password">
+                        <el-input type="password" v-model="ruleForm1.password"></el-input>
+                    </el-form-item>
+                    <el-form-item label="确认密码" prop="againPwd">
+                        <el-input type="password" v-model="ruleForm1.againPwd"></el-input>
+                    </el-form-item>
+                </el-form>
             </el-main>
         </el-container>
     </el-container>
@@ -75,6 +84,7 @@
 import rules from "../util/validator";
 export default {
   data() {
+    let that = this;
     return {
       ruleForm: {
         name: "",
@@ -89,7 +99,10 @@ export default {
         phone: "",
         idCord: ""
       },
-      rules: rules
+      ruleForm1: {
+        password: "",
+        againPwd: ""
+      }
     };
   },
   methods: {
@@ -106,7 +119,18 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
-  }
+  },
+  computed: {
+    rulesXp: function() {
+      return rules(["password", "againPwd"], {
+        password: this.ruleForm1.password
+      });
+    },
+    rules: function() {
+      return rules();
+    }
+  },
+  mounted() {}
 };
 </script>
 <style scoped>

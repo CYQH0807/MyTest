@@ -31,97 +31,145 @@
  * validator 校验规则 该规则是个方法 方法内使用callback(new Error('错误信息')); 这个回调来向页面上输出错误信息
  * 自定义校验规则 与属性规则一样 都会按照顺序进行校验
  * 
- * @version 1.0 表单验证第一版 第二版将会尝试解决该文件的重复引用
+ * @version 1.0 表单验证第一版 第二版将会尝试解决该文件的重复引用 表单各属性直接的依赖未解决
+ * 
+ * @version 2.0 解决了文件重复引用,以及表单各属性的依赖 但是引发了另一个问题 在各属性依赖的时候 如果B的校验依赖A 那么A的值在改变的时候 B的校验信息 同时会出来 (原因未知)
  */
-export default {
-  name: [{
-      type: "number",
-      required: true,
-      message: "请输入活动名称",
-      trigger: "blur",
-      transform(value) {
-        return Number(value);
+const validator = (relyData = {}) => {
+  return {
+    name: [{
+        type: "number",
+        required: true,
+        message: "请输入活动名称",
+        trigger: "blur",
+        transform(value) {
+          return Number(value);
+        },
       },
-    },
-    {
-      type: "number",
-      min: 3,
-      max: 5,
-      message: "数值范围在 3 到 5 之间",
+      {
+        type: "number",
+        min: 3,
+        max: 5,
+        message: "数值范围在 3 到 5 之间",
+        trigger: "blur"
+      }
+    ],
+    region: [{
+      required: true,
+      message: "请选择活动区域",
+      trigger: "change"
+    }],
+    date1: [{
+      type: "date",
+      required: true,
+      message: "请选择日期",
+      trigger: "change"
+    }],
+    date2: [{
+      type: "date",
+      required: true,
+      message: "请选择时间",
+      trigger: "change"
+    }],
+    type: [{
+      type: "array",
+      required: true,
+      message: "请至少选择一个活动性质",
+      trigger: "change"
+    }],
+    resource: [{
+      required: true,
+      message: "请选择活动资源",
+      trigger: "change"
+    }],
+    mail: [{
+      type: "email",
+      message: "请填写正确的邮箱",
       trigger: "blur"
-    }
-  ],
-  region: [{
-    required: true,
-    message: "请选择活动区域",
-    trigger: "change"
-  }],
-  date1: [{
-    type: "date",
-    required: true,
-    message: "请选择日期",
-    trigger: "change"
-  }],
-  date2: [{
-    type: "date",
-    required: true,
-    message: "请选择时间",
-    trigger: "change"
-  }],
-  type: [{
-    type: "array",
-    required: true,
-    message: "请至少选择一个活动性质",
-    trigger: "change"
-  }],
-  resource: [{
-    required: true,
-    message: "请选择活动资源",
-    trigger: "change"
-  }],
-  mail: [{
-    required: true,
-    message: "请填写邮箱",
-    trigger: "blur"
-  }, {
-    type: "email",
-    message: "请填写正确的邮箱",
-    trigger: "blur"
-  }],
-  phone: [{
-    required: true,
-    message: "请填写手机号码",
-    trigger: "blur"
-  }, {
-    type: "regexp",
-    validator: (rule, value, callback) => {
-      !/^1[345789]\d{9}$/.test(value) ? callback(new Error('请输入正确的手机号码')) : callback();
-    },
-    trigger: 'blur'
-  }],
-  idCord: [{
-    required: true,
-    message: "请填写身份证号码",
-    trigger: "blur"
-  }, {
-    validator: (rule, value, callback) => {
-      !/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X|x)$/.test(value) &&
-        callback(new Error('请输入正确的身份证号码'))
-    },
-    trigger: 'blur'
-  }],
-  floatNumber: [{
-    required: true,
-    message: "请填写${占位符}",
-    trigger: "blur"
-  }, {
-    validator: (rule, value, callback) => {
-      !/^[0-9]+(.[0-9]{1,2})?$/.test(value) ? callback(new Error('请输入正确的两位以内小数')) : callback();
-    },
-    transform(value) {
-      return value.trim();
-    },
-    trigger: 'blur'
+    }],
+    phone: [{
+      type: "regexp",
+      validator: (rule, value, callback) => {
+        if (value != "") {
+          !/^1[345789]\d{9}$/.test(value) ? callback(new Error('请输入正确的手机号码')) : callback();
+        }
+      },
+      trigger: 'blur'
+    }],
+    idCord: [{
+      required: true,
+      message: "请填写身份证号码",
+      trigger: "blur"
+    }, {
+      validator: (rule, value, callback) => {
+        !/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X|x)$/.test(value) &&
+          callback(new Error('请输入正确的身份证号码'))
+      },
+      trigger: 'blur'
+    }],
+    floatNumber: [{
+      required: true,
+      message: "请填写${占位符}",
+      trigger: "blur"
+    }, {
+      validator: (rule, value, callback) => {
+        !/^[0-9]+(.[0-9]{1,2})?$/.test(value) ? callback(new Error('请输入正确的两位以内小数')) : callback();
+      },
+      transform(value) {
+        return value.trim();
+      },
+      trigger: 'blur'
+    }],
+    password: [{
+        required: true,
+        message: "请输入密码",
+        trigger: "blur"
+      },
+      {
+        min: 6,
+        message: "请输入6位以上密码",
+        trigger: "blur"
+      }
+    ],
+    againPwd: [{
+        min: 6,
+        message: "请输入6位以上确认密码",
+        trigger: "blur"
+      },
+      {
+        validator: (rule, value, callback) => {
+          if (value !== "") {
+            if (value != relyData.password) {
+              callback(new Error('两次密码不一致'))
+            } else {
+              callback()
+            }
+          }
+        },
+        trigger: 'change'
+      }
 
-  }]
+    ]
+  }
 }
+const expValid = (validArray = [], relyData = {}) => {
+  let expData = {};
+  const validatorObj = validator(relyData);
+  if (validArray.length == 0) {
+    return validatorObj;
+  }
+  for (let index = 0; index < validArray.length; index++) {
+    const element = validArray[index];
+
+    if (validatorObj.hasOwnProperty(element)) {
+      expData[element] = validatorObj[element];
+    }
+  }
+  return expData;
+}
+
+
+
+
+
+export default expValid
