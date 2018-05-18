@@ -51,6 +51,13 @@
       <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
+
+    <div class="sea">
+      <p class="title">the sea</p>
+      <span class="wave"></span>
+      <span class="wave"></span>
+      <span class="wave"></span>
+    </div>
   </div>
 </template>
 
@@ -199,7 +206,6 @@ export default {
   position: relative;
 }
 .movieTable {
-  height: 500px;
   overflow: hidden;
 }
 .movieTableLink {
@@ -219,5 +225,65 @@ export default {
   top: 0;
   width: 100%;
   z-index: 1999;
+}
+.sea {
+  width: 300px;
+  height: 300px;
+  background-color: whitesmoke;
+  background-image: linear-gradient(
+    darkblue,
+    rgba(255, 255, 255, 0) 80%,
+    rgba(255, 255, 255, 0.5)
+  );
+  border-radius: 5px;
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.sea .title {
+  color: white;
+  font-size: 24px;
+  font-family: serif;
+  text-align: center;
+  line-height: 250px;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+}
+
+.sea .wave {
+  position: absolute;
+  top: -250px;
+  left: -100px;
+  width: 500px;
+  height: 500px;
+  background: deepskyblue;
+  border-radius: 43%;
+  filter: opacity(0.4);
+  animation: drift linear infinite;
+  transform-origin: 50% 48%;
+}
+
+.sea .wave:nth-of-type(1) {
+  animation-duration: 5s;
+}
+
+.sea .wave:nth-of-type(2) {
+  animation-duration: 7s;
+}
+
+.sea .wave:nth-of-type(3) {
+  animation-duration: 9s;
+  background-color: orangered;
+  filter: opacity(0.1);
+}
+
+@keyframes drift {
+  from {
+    transform: rotate(360deg);
+  }
 }
 </style>
