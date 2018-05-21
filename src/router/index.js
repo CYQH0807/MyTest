@@ -9,6 +9,8 @@ const index = r => require.ensure([], () => r(require('../view/index')), 'index'
 const transformExp = r => require.ensure([], () => r(require('../view/transformExp')), 'transformExp');
 const scrollbar = r => require.ensure([], () => r(require('../view/scrollbar')), 'scrollbar');
 const formValidator = r => require.ensure([], () => r(require('../view/formValidator')), 'formValidator');
+const betterScroll = r => require.ensure([], () => r(require('../view/betterScroll')), 'betterScroll');
+
 export default new Router({
   routes: [{
       path: '/',
@@ -29,6 +31,15 @@ export default new Router({
       path: '/formValidator',
       name: 'formValidator',
       component: formValidator
+    }, {
+      path: '/betterScroll',
+      name: 'betterScroll',
+      component: betterScroll
     }
   ]
 })
+
+
+
+
+
