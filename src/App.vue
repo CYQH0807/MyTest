@@ -12,7 +12,6 @@ export default {
 
 <style>
 #app {
-  position: absolute;
   height: 100%;
   width: 100%;
 }
