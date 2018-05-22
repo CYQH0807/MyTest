@@ -65,7 +65,7 @@
  *
  */
 
-import resource from "../util/resource";
+import axios from "../util/axios";
 export default {
   data() {
     return {
@@ -83,7 +83,7 @@ export default {
 
   mounted() {
     let that = this;
-    resource
+    axios
       .JsonpTest({ count: 50, start: 0 }, { container: ".movieTable" })
       .then(data => {
         console.log(data);

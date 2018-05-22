@@ -63,7 +63,7 @@
 
 <script>
 import xSelect from "../components/select";
-import resource from "../util/resource";
+import axios from "../util/axios";
 export default {
   name: "HelloWorld",
   data() {
@@ -169,10 +169,13 @@ export default {
       this.pageSize = pageSize;
       this.startPage = startPage;
       let that = this;
-      resource
+      axios
         .JsonpTest(
+          "",
           { count: pageSize, start: startPage },
-          { container: ".movieTable" }
+          { container: ".movieTable" },
+          false,
+          true
         )
         .then(data => {
           console.log(data);

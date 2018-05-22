@@ -42,7 +42,7 @@
  *
  */
 
-import resource from "../util/resource";
+import axios from "../util/axios";
 import BScroll from "better-scroll";
 export default {
   data() {
@@ -58,8 +58,8 @@ export default {
 
   mounted() {
     let that = this;
-    resource
-      .JsonpTest({ count: 50, start: 0 }, { container: ".wrapper" })
+    axios
+      .JsonpTest("", { count: 50, start: 0 }, { container: ".wrapper" })
       .then(data => {
         that.movieList = data.subjects;
         that.total = data.total;
