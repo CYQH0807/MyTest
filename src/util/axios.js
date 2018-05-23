@@ -49,7 +49,7 @@ Object.keys(api).forEach((item) => {
         isAuth: false,
         isLogin: false
       }, options);
-      let [promise, dataTmp, url] = [, opts.data, api[item][keys]];
+      let [promise, dataTmp, url, errorObj] = [, opts.data, api[item][keys]];
       if (opts.loadingOptions) {
         let loadingObj = loading.creat(opts.loadingOptions);
       }
@@ -83,6 +83,9 @@ Object.keys(api).forEach((item) => {
         if (opts.loadingOptions) {
           loading.close(loading);
         }
+
+        errorTable.close();
+
         return data;
       }).catch(error => {
         if (!opts.errOptions) {
@@ -92,7 +95,7 @@ Object.keys(api).forEach((item) => {
             duration: 5 * 1000
           });
         } else {
-          errorTable.creat(opts.errOptions);
+          errorObj = errorTable.creat(opts.errOptions);
         }
         if (opts.loadingOptions) {
           loading.close(loading);
