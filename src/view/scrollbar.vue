@@ -1,38 +1,38 @@
 <!-- element-ui 未在文档中出现的scrollbar组件 -->
 <template>
-    <div class="movieTable">
-        <el-scrollbar class="scrollbar" :noresize="false">
-            <el-table :data="movieList" style="width: 100%">
-                <el-table-column prop="id" label="ID" width="100">
-                </el-table-column>
-                <el-table-column label="中文名称" width="180">
-                    <template slot-scope="scope">
-                        <a :href="scope.row.alt" target="_blank" class="movieTableLink">{{ scope.row.title }}</a>
-                    </template>
-                </el-table-column>
-                <el-table-column class="cursorPointer" label="英文名称">
-                    <template slot-scope="scope">
-                        <span class="cursorPointer" @click="clickOriginal(scope.row.original_title)"> {{ scope.row.original_title }} </span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="year" label="年份" width="100">
-                </el-table-column>
-                <el-table-column label="评分" width="200">
-                    <template slot-scope="scope">
-                        <el-rate v-model="scope.row.rating.average" disabled show-score text-color="#ff9900" score-template="{value}">
-                        </el-rate>
-                    </template>
-                </el-table-column>
+  <div class="movieTable">
+    <el-scrollbar class="scrollbar" :noresize="false">
+      <el-table :data="movieList" style="width: 100%">
+        <el-table-column prop="id" label="ID" width="100">
+        </el-table-column>
+        <el-table-column label="中文名称" width="180">
+          <template slot-scope="scope">
+            <a :href="scope.row.alt" target="_blank" class="movieTableLink">{{ scope.row.title }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column class="cursorPointer" label="英文名称">
+          <template slot-scope="scope">
+            <span class="cursorPointer" @click="clickOriginal(scope.row.original_title)"> {{ scope.row.original_title }} </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="year" label="年份" width="100">
+        </el-table-column>
+        <el-table-column label="评分" width="200">
+          <template slot-scope="scope">
+            <el-rate v-model="scope.row.rating.average" disabled show-score text-color="#ff9900" score-template="{value}">
+            </el-rate>
+          </template>
+        </el-table-column>
 
-                <el-table-column label="分类">
-                    <template slot-scope="scope">
-                        <el-tag type="success" class="marginRight7" v-for="(item,index) in scope.row.genres" :key="index">{{item}}</el-tag>
-                    </template>
-                </el-table-column>
+        <el-table-column label="分类">
+          <template slot-scope="scope">
+            <el-tag type="success" class="marginRight7" v-for="(item,index) in scope.row.genres" :key="index">{{item}}</el-tag>
+          </template>
+        </el-table-column>
 
-            </el-table>
-        </el-scrollbar>
-    </div>
+      </el-table>
+    </el-scrollbar>
+  </div>
 </template>
 
 <script>
@@ -84,7 +84,10 @@ export default {
   mounted() {
     let that = this;
     axios
-      .JsonpTest({ count: 50, start: 0 }, { container: ".movieTable" })
+      .JsonpTest({
+        data: { count: 50, start: 0 },
+        loadingOptions: { container: ".movieTable" }
+      })
       .then(data => {
         console.log(data);
         that.movieList = data.subjects;

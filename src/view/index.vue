@@ -13,7 +13,6 @@
       <el-button @click="selectData">查询</el-button>
       <router-link to="betterScroll">登录测试页</router-link>
       <router-link to="erroreX">error组件测试页</router-link>
-
     </el-row>
 
     <div class="movieTable">
@@ -173,11 +172,10 @@ export default {
       this.startPage = startPage;
       let that = this;
       axios
-        .JsonpTest(
-          "",
-          { count: pageSize, start: startPage },
-          { container: ".movieTable" }
-        )
+        .JsonpTest({
+          data: { count: pageSize, start: startPage },
+          loadingOptions: { container: ".movieTable" }
+        })
         .then(data => {
           console.log(data);
           that.movieList = data.subjects;

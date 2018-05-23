@@ -1,49 +1,49 @@
 <template>
-    <div>
-        <el-form :inline="true" :model="form" class="demo-form-inline">
-            <el-form-item label="url参数">
-                <el-input v-model="form.url"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">url参数追加</el-button>
-                <el-button type="primary" @click="normalQuery">正常查询</el-button>
-                <el-button type="primary" @click="expiredQuery">过期查询</el-button>
-            </el-form-item>
-        </el-form>
-        <better-scroll :data="movieList" class="wrapper" ref="wrapper1">
-            <el-table :data="movieList" style="width: 100%">
-                <el-table-column prop="id" label="ID" width="100">
-                </el-table-column>
-                <el-table-column label="中文名称" width="180">
-                    <template slot-scope="scope">
-                        <a :href="scope.row.alt" target="_blank" class="movieTableLink">{{ scope.row.title }}</a>
-                    </template>
-                </el-table-column>
-                <el-table-column class="cursorPointer" label="英文名称">
-                    <template slot-scope="scope">
-                        <span class="cursorPointer"> {{ scope.row.original_title }} </span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="year" label="年份" width="100">
-                </el-table-column>
-                <el-table-column label="评分" width="200">
-                    <template slot-scope="scope">
-                        <el-rate v-model="scope.row.rating.average" disabled show-score text-color="#ff9900" score-template="{value}">
-                        </el-rate>
-                    </template>
-                </el-table-column>
+  <div>
+    <el-form :inline="true" :model="form" class="demo-form-inline">
+      <el-form-item label="url参数">
+        <el-input v-model="form.url"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">url参数追加</el-button>
+        <el-button type="primary" @click="normalQuery">正常查询</el-button>
+        <el-button type="primary" @click="expiredQuery">过期查询</el-button>
+      </el-form-item>
+    </el-form>
+    <better-scroll :data="movieList" class="wrapper" ref="wrapper1">
+      <el-table :data="movieList" style="width: 100%">
+        <el-table-column prop="id" label="ID" width="100">
+        </el-table-column>
+        <el-table-column label="中文名称" width="180">
+          <template slot-scope="scope">
+            <a :href="scope.row.alt" target="_blank" class="movieTableLink">{{ scope.row.title }}</a>
+          </template>
+        </el-table-column>
+        <el-table-column class="cursorPointer" label="英文名称">
+          <template slot-scope="scope">
+            <span class="cursorPointer"> {{ scope.row.original_title }} </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="year" label="年份" width="100">
+        </el-table-column>
+        <el-table-column label="评分" width="200">
+          <template slot-scope="scope">
+            <el-rate v-model="scope.row.rating.average" disabled show-score text-color="#ff9900" score-template="{value}">
+            </el-rate>
+          </template>
+        </el-table-column>
 
-                <el-table-column label="分类">
-                    <template slot-scope="scope">
-                        <el-tag type="success" class="marginRight7" v-for="(item,index) in scope.row.genres" :key="index">{{item}}</el-tag>
-                    </template>
-                </el-table-column>
+        <el-table-column label="分类">
+          <template slot-scope="scope">
+            <el-tag type="success" class="marginRight7" v-for="(item,index) in scope.row.genres" :key="index">{{item}}</el-tag>
+          </template>
+        </el-table-column>
 
-            </el-table>
+      </el-table>
 
-            <div class="aaa" @click="scrollPosition">123123</div>
-        </better-scroll>
-    </div>
+      <div class="aaa" @click="scrollPosition">123123</div>
+    </better-scroll>
+  </div>
 </template>
 
 <script>
@@ -73,7 +73,10 @@ export default {
   mounted() {
     let that = this;
     axios
-      .JsonpTest("", { count: 50, start: 0 }, { container: ".wrapper" })
+      .JsonpTest({
+        data: { count: 50, start: 0 },
+        loadingOptions: { container: ".wrapper" }
+      })
       .then(data => {
         that.movieList = data.subjects;
         that.total = data.total;
@@ -104,7 +107,10 @@ export default {
     normalQuery() {
       let that = this;
       axios
-        .JsonpTest("", { count: 50, start: 0 }, { container: ".wrapper" })
+        .JsonpTest({
+          data: { count: 50, start: 0 },
+          loadingOptions: { container: ".wrapper" }
+        })
         .then(data => {
           that.movieList = data.subjects;
           that.total = data.total;
@@ -113,13 +119,12 @@ export default {
     expiredQuery() {
       let that = this;
       axios
-        .JsonpTest(
-          "",
-          { count: 50, start: 0 },
-          { container: ".wrapper" },
-          true,
-          true
-        )
+        .JsonpTest({
+          data: { count: 50, start: 0 },
+          loadingOptions: { container: ".wrapper" },
+          isAuth: true,
+          isLogin: true
+        })
         .then(data => {
           that.movieList = data.subjects;
           that.total = data.total;
