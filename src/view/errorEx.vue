@@ -36,7 +36,7 @@ export default {
   computed: {},
 
   mounted() {
-    this.loadData();
+    this.loadErrorData();
   },
 
   methods: {
@@ -50,8 +50,25 @@ export default {
             className: "aaa",
             errorMsg: "错误信息",
             imgSrc: require("../assets/logo.png"),
+          }
+        })
+        .then(data => {
+          console.log(data.data.data);
+          that.tableData = data.data.data;
+        });
+    },
+    loadErrorData() {
+      let that = this;
+      axios
+        .errorQuery({
+          data: { count: 50, start: 0 },
+          errOptions: {
+            container: ".textTable",
+            className: "aaa",
+            errorMsg: "错误信息",
+            imgSrc: require("../assets/logo.png"),
             reloadFnc: function() {
-              alert(1);
+              that.loadData();
             }
           }
         })
@@ -59,9 +76,6 @@ export default {
           console.log(data.data.data);
           that.tableData = data.data.data;
         })
-        .catch(e => {
-          console.log("666");
-        });
     }
   }
 };
