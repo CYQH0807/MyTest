@@ -12,6 +12,8 @@
     <el-row>
       <el-button @click="selectData">查询</el-button>
       <router-link to="betterScroll">登录测试页</router-link>
+      <router-link to="erroreX">error组件测试页</router-link>
+
     </el-row>
 
     <div class="movieTable">
