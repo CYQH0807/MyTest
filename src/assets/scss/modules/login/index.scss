@@ -1,0 +1,14 @@
+.v-login {
+  .el-form-item__label {
+    color: #ffffff;
+  }
+  .is-required .el-form-item__label::before {
+    content: " "
+  }
+  .el-form-item.is-success,
+  .el-form-item.is-error {
+    .el-input__inner {
+      border-color: #ffffff;
+    }
+  }
+}
