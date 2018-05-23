@@ -11,6 +11,7 @@
     </div>
     <el-row>
       <el-button @click="selectData">查询</el-button>
+      <router-link to="betterScroll">登录测试页</router-link>
     </el-row>
 
     <div class="movieTable">
@@ -173,9 +174,7 @@ export default {
         .JsonpTest(
           "",
           { count: pageSize, start: startPage },
-          { container: ".movieTable" },
-          false,
-          true
+          { container: ".movieTable" }
         )
         .then(data => {
           console.log(data);
