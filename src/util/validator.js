@@ -120,6 +120,11 @@ const validator = (relyData = {}) => {
       },
       trigger: 'blur'
     }],
+    loginName: [{
+      required: true,
+      message: "请输入用户名",
+      trigger: "blur"
+    }],
     password: [{
         required: true,
         message: "请输入密码",
