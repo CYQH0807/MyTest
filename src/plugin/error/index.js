@@ -23,7 +23,6 @@ let ErrorTable = function () {
   this.defaults = {
     container: "",
     isShow: true,
-    colspanNum: 1,
     errorMsg: "加载失败",
     isImg: false,
     isClick: false
@@ -56,7 +55,7 @@ ErrorTable.prototype.creat = function (options = {}) {
     this.errorTable.reloadFnc = this.ops.reloadFnc
     this.errorTable.isClick = true;
   }
-  this.errorTable.isShow = true;
+  this.errorTable.errorShow = true;
   this.errorTable.$mount(); //???
   document.querySelector(this.ops.container).children[1].appendChild(this.errorTable.$el);
 

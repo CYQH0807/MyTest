@@ -1,22 +1,24 @@
 <template>
-	<tr class="errorBox" :class="className" v-show="isShow">
-		<td v-bind:colspan="colspanNum" class="error">
-			<div>
-				<img v-if="isImg" v-bind:src="imgSrc" alt="">
-				<div>
-					<span> {{errorMsg}}</span>
-					<span class="reloadText" v-if="isClick" v-on:click="reloadFnc">点击刷新</span>
-				</div>
-			</div>
-		</td>
-	</tr>
+  <tr class="errorBox" :class="className" v-show="errorShow">
+    <td v-bind:colspan="colspanNum" class="error">
+      <div>
+        <img v-if="isImg" v-bind:src="imgSrc" alt="">
+        <div>
+          <span> {{errorMsg}}</span>
+          <span class="reloadText" v-if="isClick" v-on:click="reloadFnc">点击刷新</span>
+        </div>
+      </div>
+    </td>
+  </tr>
 </template>
 
 <script>
 export default {
   name: "errorTable",
   data() {
-    return {};
+    return {
+      errorShow: false
+    };
   },
   props: {
     className: String,
@@ -29,8 +31,8 @@ export default {
     reloadFnc: [Object, Function]
   },
   methods: {
-    close: () => {
-      this.isShow = false;
+    close: function() {
+      this.errorShow = false;
     }
   }
 };
