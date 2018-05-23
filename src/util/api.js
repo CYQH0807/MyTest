@@ -6,7 +6,8 @@ const reqHost = process.env.mock == 'true' ? "" : "http://www.baidu.com";
 export default {
   //json请求
   axiosUrl: {
-    querylList: reqHost + "static/mock/list.json"
+    querylList: reqHost + "static/mock/list.json",
+    errorQuery: reqHost + "static/mock/list1.json"
   },
   //jsonp请求
   axiosJsonpUrl: {
