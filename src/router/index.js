@@ -10,6 +10,9 @@ const transformExp = r => require.ensure([], () => r(require('../view/transformE
 const scrollbar = r => require.ensure([], () => r(require('../view/scrollbar')), 'scrollbar');
 const formValidator = r => require.ensure([], () => r(require('../view/formValidator')), 'formValidator');
 const betterScroll = r => require.ensure([], () => r(require('../view/betterScroll')), 'betterScroll');
+const login = r => require.ensure([], () => r(require('../view/login')), 'login');
+const errorEx = r => require.ensure([], () => r(require('../view/errorEx')), 'errorEx');
+
 
 export default new Router({
   routes: [{
@@ -35,11 +38,17 @@ export default new Router({
       path: '/betterScroll',
       name: 'betterScroll',
       component: betterScroll
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+
+    }, {
+      path: '/errorEx',
+      name: 'errorEx',
+      component: errorEx
+
     }
   ]
 })
-
-
-
-
-
