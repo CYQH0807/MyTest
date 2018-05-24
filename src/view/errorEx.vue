@@ -68,7 +68,7 @@ export default {
             errorMsg: "错误信息",
             imgSrc: require("../assets/logo.png"),
             reloadFnc: function() {
-              that.loadData();
+              that.loadErrorData();
             }
           }
         })
