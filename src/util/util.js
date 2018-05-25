@@ -25,19 +25,30 @@
      } else {
        console.error('请选择正确的子元素');
      }
+     childrenEl = childrenEl.substr(1, childrenEl.length);
      if (parent) {
-       let childrenList = parent.children;
-       for (let i = 0; i < childrenList.length; i++) {
-         const item = childrenList[i];
-         if (item[queryType] == childrenEl) {
-           outChildren = item;
-           break;
-         }
-       }
+       outChildren = util.recursiveFind(parent, childrenEl, queryType);
      } else {
        console.error("请选择正确的父元素")
      }
      return outChildren;
+   },
+   recursiveFind: (parent, childrenEl, queryType) => {
+     let outChildren;
+     let childrenList = parent.children;
+     if (childrenList.length > 0) {
+       for (let i = 0; i < childrenList.length; i++) {
+         const item = childrenList[i];
+         if (item[queryType].indexOf(childrenEl) >= 0) {
+           outChildren = item;
+           break;
+         }
+         util.recursiveFind(item, childrenEl, queryType);
+       }
+     } else {
+       return outChildren
+     }
+
    }
 
 

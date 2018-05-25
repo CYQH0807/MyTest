@@ -83,7 +83,6 @@ export default {
 <style lang="scss" scoped >
 .movieTable {
   height: 100%;
-  overflow: hidden;
 }
 .scrollbar {
   height: 100%;
