@@ -10,7 +10,7 @@
       <xSelect :optionData="options" v-bind:dataVal="'value'" v-bind:dataLable="'label'" v-model="text1" v-on:change="handleChange" v-on:remove-tag="handleRemoveTag"></xSelect>
     </div>
     <el-row>
-      <el-button @click="selectData">查询</el-button>
+      <el-button @click="selectData" class="iconfont icon-shouye">   查询</el-button>
       <router-link to="betterScroll">登录测试页</router-link>
       <router-link to="erroreX">error组件测试页</router-link>
     </el-row>

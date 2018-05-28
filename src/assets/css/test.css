@@ -1,3 +1,4 @@
+@import "../font/iconfont.css";
 html,
 body {
   width: 100%;
@@ -23,3 +24,4 @@ body {
 .testClass {
   border: 1px dotted;
 }
+

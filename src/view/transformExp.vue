@@ -77,16 +77,6 @@ export default {
   background: rgba(32, 32, 35, 0.5);
 }
 
-.dashboard {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
-  padding-top: 5%;
-  background: url("../assets/img/bg.jpg");
-  background-size: 100% 100%;
-}
 img {
   width: 100%;
   height: 100%;
