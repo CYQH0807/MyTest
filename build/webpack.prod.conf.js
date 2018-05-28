@@ -160,7 +160,7 @@ if (config.build.bundleAnalyzerReport) {
 // CSS入口配置
 var CSS_PATH = {
   css: {
-    pattern: ['./src/assets/scss/*.scss'], //['./src/assets/css/*.css'], 
+    pattern: ['./src/assets/scss/*.scss', './src/assets/css/*.css'], //['./src/assets/css/*.css'], 
     src: path.join(__dirname, 'src'),
     dst: path.resolve(__dirname, '../dist/static/css'),
   }
@@ -186,14 +186,38 @@ module.exports = [webpackConfig,
     },
     module: {
       rules: [{
-        test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: ['css-loader', 'sass-loader']
-        })
-      }]
+          test: /\.(scss|css)$/,
+          use: ExtractTextPlugin.extract({
+            use: ['css-loader', 'sass-loader', ]
+          })
+        }, {
+          test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: utils.assetsPath('../../img/[name].[hash:7].[ext]')
+          }
+        },
+        {
+          test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: utils.assetsPath('../../media/[name].[hash:7].[ext]')
+          }
+        },
+        {
+          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            name: utils.assetsPath('../../fonts/[name].[hash:7].[ext]')
+          }
+        }
+      ]
     },
     resolve: {
-      extensions: ['.scss']
+      extensions: ['.scss', '.css']
     },
     plugins: [
       new ExtractTextPlugin('[name].css'),
