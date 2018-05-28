@@ -28,7 +28,20 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
     }) + '\n\n')
 
     if (stats.hasErrors()) {
-      console.log(chalk.red('  Build failed with errors.\n'))
+      console.log(chalk.red('  Build failed with errors.\n'));
+      if (stats.stats) {
+        for (let index = 0; index < stats.stats.length; index++) {
+          const element = stats.stats[index];
+          if (element.compilation) {
+            for (let i = 0; i < element.compilation.errors.length; i++) {
+              const xx = element.compilation.errors[i];
+              console.log(chalk.red(xx.message + '\n'));
+            }
+
+          }
+        }
+      }
+
       process.exit(1)
     }
 
