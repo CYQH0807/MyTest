@@ -14,6 +14,16 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env = require('../config/prod.env')
 
+
+/**
+ * @author 池樱千幻
+ *  merge方法详解
+ * 合并对象 但是与Object.assign 有所不同 assign会将同名数组覆盖 但merge会合并 
+ * console.log(merge({a: {aa: 1,bb: 2,array:[1,2,3]},b: {cc: 1}}, {a: {aa: 2,cc: 1,array:[3,2,1]}}));
+ *  输出为 { a: { aa: 2, bb: 2, array: [ 1, 2, 3, 3, 2, 1 ], cc: 1 },
+  b: { cc: 1 } }
+ */
+
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -42,7 +52,8 @@ const webpackConfig = merge(baseWebpackConfig, {
       sourceMap: config.build.productionSourceMap,
       parallel: true
     }),
-    // extract css into its own file
+    // extract css into its own file 
+    // css拆分 将所有css 包括入口文件,.vue文件引入的css单独拆分出来 而不是放在js中  注: 不是拆分成多个文件 而且分离css 
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
@@ -53,6 +64,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
+    //是否添加map文件 方便代码调试
     new OptimizeCSSPlugin({
       cssProcessorOptions: config.build.productionSourceMap ? {
         safe: true,
@@ -66,6 +78,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
+    // 
     new HtmlWebpackPlugin({
       filename: config.build.index,
       template: 'index.html',
