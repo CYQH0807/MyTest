@@ -146,7 +146,17 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-
+/**
+ * @author 池樱千幻
+ * 基于vue-cli脚手架基础上的css单独打包
+ * 
+ * 打包时给webpack传递一个数组 使其打包两次 参考官方文档 https://webpack.docschina.org/configuration/configuration-types/ 
+ *   --此处吐槽webpack 虽然提供了开箱即食的高复用性打包方式 但是粒度更细的打包或特殊需求的打包 就不如gulp了
+ * 
+ *  
+ * 
+ *  
+ */
 // CSS入口配置
 var CSS_PATH = {
   css: {
@@ -156,10 +166,9 @@ var CSS_PATH = {
   }
 }
 
-// 遍历除所有需要打包的CSS文件路径
+// 遍历除所有需要打包的CSS文件路径 CSS_PATH中pattern可以是一个正则的匹配式
 function getCSSEntries(config) {
   var fileList = glob.sync(config.pattern);
-  console.log(fileList)
   return fileList.reduce(function (previous, current) {
     var filePath = path.parse(path.relative(config.src, current))
     var withoutSuffix = filePath.name;
@@ -170,8 +179,6 @@ function getCSSEntries(config) {
 //module.exports= webpackConfig;
 module.exports = [webpackConfig,
   {
-    // devtool: 'cheap-module-eval-source-map',
-    // context: path.resolve(__dirname),
     entry: getCSSEntries(CSS_PATH.css),
     output: {
       path: CSS_PATH.css.dst,
